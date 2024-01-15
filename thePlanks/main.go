@@ -3,12 +3,14 @@ package main
 import ("fmt")
 
 func main(){
-  max := 4
+  max := 5
   head := node{length:0, plank: 0}
   insertChild(&head,max)
 //  printNodes(&head)
   result := burtForceSearch(&head)
-  fmt.Printf("There are %d ways to get to Lenght of 4\n", result)
+  fmt.Printf("Using burforce, we find there are %d ways to get to Lenght of %d\n", result, max)
+  result = dynamicSolution(max)
+  fmt.Printf("Using dynamic programming, we find there are %d ways to get to Lenght of %d\n", result, max)  
 }
 
 type node struct{
@@ -52,3 +54,12 @@ func burtForceSearch(n *node) int{
   return result
 }
 
+func dynamicSolution(max int)int{
+  table := []int{1,1,2}
+
+  for i:=3; i<=max; i++{
+    r := table[i-1]+table[i-2]+table[i-3] 
+    table = append(table, r)
+  }
+  return table[max]
+}
